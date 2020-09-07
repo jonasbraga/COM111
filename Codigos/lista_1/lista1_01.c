@@ -1,19 +1,19 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-void fillV(int l, int c, int *v);
-void fillM(int l, int c,int *v, int **m);
-void showV(int l, int c, int *v);
-void showM(int l, int c, int *v, int **m);
+void fillArray(int l, int c, int *v);
+void fillMatrix(int l, int c,int *v, int **m);
+void showArray(int l, int c, int *v);
+void showMatrix(int l, int c, int *v, int **m);
 
 int main() {
 
   int l, c, *v, **m, i;
 
-  printf("Insira o número de linhas: ");
+  printf("Insira a quantidade de linhas: ");
   scanf("%d", &l);
 
-  printf("Insira o número de colunas: ");
+  printf("Insira a quantidade de colunas: ");
   scanf("%d", &c);
 
   v = (int*) malloc(l*c * sizeof(int));
@@ -23,12 +23,12 @@ int main() {
     m[i] = (int*) malloc(c * sizeof(int));
   }
 
-  fillV(l, c, v);
-  showV(l, c, v);
+  fillArray(l, c, v);
+  showArray(l, c, v);
   printf("\n");
 
-  fillM(l, c, v, m);
-  showM(l, c, v, m);
+  fillMatrix(l, c, v, m);
+  showMatrix(l, c, v, m);
   printf("\n");
 
   free(v);
@@ -42,7 +42,7 @@ int main() {
   return 0;
 }
 
-void fillV(int l, int c, int *v) {
+void fillArray(int l, int c, int *v) {
   
   int i;
   
@@ -53,7 +53,7 @@ void fillV(int l, int c, int *v) {
   }
 }
 
-void fillM(int l, int c,int *v, int **m) {
+void fillMatrix(int l, int c,int *v, int **m) {
 
   int i, j, z = 0;
 
@@ -65,11 +65,11 @@ void fillM(int l, int c,int *v, int **m) {
   }
 }
 
-void showV(int l, int c, int *v) {
+void showArray(int l, int c, int *v) {
 
   int i;
 
-  printf("Vetor:");
+  printf("Vetor: \n");
 
   for (i=0; i<c*l; i++) {
     printf("%d", v[i]);
@@ -77,11 +77,11 @@ void showV(int l, int c, int *v) {
   printf("\n");
 }
 
-void showM(int l, int c, int *v, int **m) {
+void showMatrix(int l, int c, int *v, int **m) {
 
   int i, j;
   
-  printf("Matriz:");
+  printf("Matriz: \n");
 
   for(i=0; i<l; i++) {
     for(j=0; j<c; j++) {
