@@ -25,7 +25,7 @@ int main(){
   int n;
   ALUNO *alunos;
 
-  printf("Insira o numero de alunos: ");
+  printf("\n Insira a quantidade de alunos: ");
   scanf("%d", &n);
  
   alunos = createStudentsArray(n);
@@ -33,6 +33,8 @@ int main(){
   fillStudents(n, alunos);
 
   showApprovedStudents(n, alunos);
+
+  free(alunos);
 
   return 0;
 }
