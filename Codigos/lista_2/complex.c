@@ -10,64 +10,75 @@
 // --------------------------
 
 struct complex {
-  int n;
+  float nReal;
+  float nImaginario;
 };
-
 
 // --------------------------
 // implementação das funções 
 // --------------------------
 
 // função para criar um novo numero complexo
-Complex* complexCriar(int a, int b){
-  
-  // TODO
+Complex* complexCriar(float a, float b){
 
-  return 1;
+  Complex* nc = (Complex*) malloc(sizeof(Complex));
+
+  if(nc != NULL){
+    nc->nReal = a;
+    nc->nImaginario = b;
+  }
+  
+  return nc;
 }
 
 // função para somar 2 números complex
-Complex* complexSomar(Complex* nc1, Complex* nc2){
+void complexSomar(Complex* nc1, Complex* nc2, Complex* result){
   
-  // TODO
-
-  return 1;
+  // (a + c)
+  result->nReal = (nc1->nReal + nc2->nReal);
+  
+  // (b + d)i
+  result->nImaginario = (nc1->nImaginario + nc2->nImaginario);
 }
 
 // função para subtrair 2 números complexos
-Complex* complexSubtrair(Complex* nc1, Complex* nc2){
+void complexSubtrair(Complex* nc1, Complex* nc2, Complex* result){
   
-  // TODO
-
-  return 1;
-}
-
-// função para dividir 2 números complexos
-Complex* complexDividir(Complex* nc1, Complex* nc2){
+   // (a - c)
+  result->nReal = (nc1->nReal - nc2->nReal);
   
-  // TODO
-
-  return 1;
+  // (b - d)i
+  result->nImaginario = (nc1->nImaginario - nc2->nImaginario);
 }
 
 // função para multiplicar 2 números complexos
-Complex* complexMultiplicar(Complex* nc1, Complex* nc2){
+void complexMultiplicar(Complex* nc1, Complex* nc2, Complex* result){
   
-  // TODO
+  //  (ac − bd)
+  result->nReal = ((nc1->nReal*nc2->nReal) - (nc1->nImaginario*nc2->nImaginario));
 
-  return 1;
+  // (bc + ad)i
+  result->nImaginario = ((nc1->nImaginario*nc1->nReal) + (nc1->nReal*nc2->nImaginario));
+}
+
+// função para dividir 2 números complexos
+void complexDividir(Complex* nc1, Complex* nc2, Complex* result){
+  
+  // ((ac + bd)/(c2 + d2)) + ((bc − ad)/(c2 + d2))i
+
+  // ((ac + bd)/(c^2 + d^2))
+  result->nReal = (((nc1->nReal*nc2->nReal) + (nc1->nImaginario*nc2->nImaginario))/((nc2->nReal*nc2->nReal) + (nc2->nImaginario*nc2->nImaginario)));
+
+  // ((bc − ad)/(c^2 + d^2))i
+  result->nImaginario = ((nc1->nImaginario*nc2->nReal) - (nc2->nReal*nc2->nReal + nc2->nImaginario*nc2->nImaginario));
 }
 
 // função para imprimir o numero complexo
 void complexImprimir(Complex* nc){
-  
-  // TODO
-
+  printf("(%0.1f + %0.1fi)", nc->nReal, nc->nImaginario);  
 }
 
 // função para liberar a memória de um numero complexo
 void complexLiberar(Complex* nc){
-  
-  // TODO
-
+  free(nc);
 }

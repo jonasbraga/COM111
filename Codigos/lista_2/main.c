@@ -1,18 +1,26 @@
-// https://repl.it/@elisa_rodrigues/Modulo4-TAD-Ponto#ponto.h
-// https://pt.khanacademy.org/math/algebra2/introduction-to-complex-numbers-algebra-2/the-imaginary-numbers-algebra-2/a/intro-to-the-imaginary-numbers
+// Comando para compilar e executar
+// gcc ./Codigos/lista_2/main.c ./Codigos/lista_2/complex.h ./Codigos/lista_2/complex.c -o exe -lm && ./exe 
 
 #include <stdio.h>
 #include "complex.h"
 
 int main(void) {
 
-  Complex *nc1, *nc2, *r; // necessário declarar ponteiros para acessar a TAD
+  Complex *nc1, *nc2, *r; // Necessário declarar ponteiros para acessar a TAD
 
-  // cria dois numeros complexos: nc1 e nc2
-  nc1 = complexCriar(10, 21);
-  nc2 = complexCriar(7, 25);
+  float a = 0, b = 0, c = 0, d = 0;
 
-  // Operações com números complexos
+  printf("Insira os valores a & b para o 1º numero complexo: ");
+  scanf("%f %f", &a, &b);
+
+  printf("Insira os valores c & d para o 2º numero complexo: ");
+  scanf("%f %f", &c, &d);
+  // Cria dois numeros complexos: nc1 e nc2
+  nc1 = complexCriar(a, b);
+  nc2 = complexCriar(c, d);
+
+  // Inicializa o numero complexo de resultado
+  r = complexCriar(0, 0);
 
   // Soma
   printf("\nSoma entre números complexos:\n");
@@ -20,7 +28,8 @@ int main(void) {
   printf(" + ");
   complexImprimir(nc2);
   printf(" = ");
-  r = complexSomar(nc1, nc2);
+  complexSomar(nc1, nc2, r);
+  
   complexImprimir(r);
   printf("\n");
 
@@ -30,7 +39,7 @@ int main(void) {
   printf(" - ");
   complexImprimir(nc2);
   printf(" = ");
-  r = complexSubtrair(nc1, nc2);
+  complexSubtrair(nc1, nc2, r);
   complexImprimir(r);
   printf("\n");
  
@@ -40,7 +49,7 @@ int main(void) {
   printf(" / ");
   complexImprimir(nc2);
   printf(" = ");
-  r = complexDividir(nc1, nc2);
+  complexDividir(nc1, nc2, r);
   complexImprimir(r);
   printf("\n");
 
@@ -50,11 +59,11 @@ int main(void) {
   printf(" * ");
   complexImprimir(nc2);
   printf(" = ");
-  r = complexMultiplicar(nc1, nc2);
+  complexMultiplicar(nc1, nc2, r);
   complexImprimir(r);
   printf("\n");
- 
-  // libera memória alocada para os pontos p e q
+  
+  // libera memória alocada para os numeros nc1, nc2 e r
   complexLiberar(nc1);
   complexLiberar(nc2);
   complexLiberar(r);
