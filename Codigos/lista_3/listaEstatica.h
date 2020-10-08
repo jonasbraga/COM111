@@ -31,4 +31,11 @@ int buscar_lista_dado(Lista *li, int dado, int *pos);
 
 int imprimir_lista(Lista *li);
 
+// Novas funções adicionadas
+int merge_listas(Lista *li, Lista *l2, Lista *l3);
+int remove_duplicate_matriculas(Lista *li, Lista *l2);
+int inverte_lista(Lista *li, Lista *l2);
+int is_list_sorted(Lista *li);
+int get_list_size(Lista *li, int *tamanho);
+
 #endif

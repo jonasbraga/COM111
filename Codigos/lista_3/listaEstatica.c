@@ -321,3 +321,35 @@ int buscar_lista_dado(Lista *li, int dado, int *pos)
 
   return 1;
 }
+
+//**************************************************************************
+// Novas funções adicionadas
+int merge_listas(Lista *li, Lista *l2, Lista *l3){
+
+
+  return 1;  
+}
+
+int remove_duplicate_matriculas(Lista *li, Lista *l2){
+
+
+  return 1;  
+}
+
+int inverte_lista(Lista *li, Lista *l2){
+
+
+  return 1;  
+}
+
+int is_list_sorted(Lista *li){
+
+
+  return 1;  
+}
+
+int get_list_size(Lista *li, int *tamanho){
+
+
+  return 1;  
+}
