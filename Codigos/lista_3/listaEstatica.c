@@ -324,32 +324,83 @@ int buscar_lista_dado(Lista *li, int dado, int *pos)
 
 //**************************************************************************
 // Novas funções adicionadas
-int merge_listas(Lista *li, Lista *l2, Lista *l3){
+int merge_listas(Lista *li, Lista *l2, Lista *l3)
+{
+  // verifica se as listas existem
+  if(li == NULL || l2 == NULL || l3 == NULL){
+    return 0;
+  }
 
+  // procura a posição no vetor onde o dado desejado se encontra
+  int i = 0;
+
+  for(int i = 0; i < li->qtd; i++){
+    l3->dados[i] = li->dados[i];
+    l3->qtd++;
+  }
+
+  for(int i = 0; i < l2->qtd; i++){
+    l3->dados[l3->qtd] = l2->dados[i];
+    l3->qtd++;
+  }
 
   return 1;  
 }
 
 int remove_duplicate_matriculas(Lista *li, Lista *l2){
 
-
+  int insert;
+  for(int i = 0; i < li->qtd; i++){
+    insert = 1;
+    
+    for(int j = 0; j < l2->qtd; j++) {
+      if(li->dados[i] == l2->dados[j]) {
+        insert = 0;
+        break;
+      }
+    }
+    
+    if (!insert) continue;
+    l2->dados[l2->qtd] = li->dados[i];
+    l2->qtd++;
+  }
+  
   return 1;  
 }
 
 int inverte_lista(Lista *li, Lista *l2){
 
+  for(int i = li->qtd; i >= 0; --i){
+    l2->dados[l2->qtd] = li->dados[i];
+    l2->qtd++;
+  }
 
   return 1;  
 }
 
 int verifica_ordem_lista(Lista *li){
 
+  int crescente = 1, decrescente = 1;
+  
+  for(int i = 0; i < li->qtd - 1; i++){
+    if(li->dados[i] >= li->dados[i + 1]){
+      crescente = 0;
+      break;
+    }
+  }
 
-  return 1;  
+  for(int i = 0; i < li->qtd - 1; i++){
+    if(li->dados[i] <= li->dados[i + 1]){
+      decrescente = 0;
+      break;
+    } 
+  }
+
+  return (int) (crescente || decrescente);  
 }
 
 int verifica_tamanho_lista(Lista *li, int *tamanho){
 
 
-  return 1;  
+  return 1;
 }

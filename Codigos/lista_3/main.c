@@ -185,8 +185,8 @@ int main(void) {
         // concatena duas listas
         l2 = criar_lista();
         l3 = criar_lista();
-
-        if(l2 == NULL || l3 == NULL){
+        
+        if(l2 == NULL){
           printf("\n Lista não criada!");
           break;
         }
@@ -204,13 +204,17 @@ int main(void) {
         }
 
         printf("\n Lista concatenada: ");
-        ok = imprimir_lista(l3);
-        
+
+        if(!imprimir_lista(l3)) printf("Erro ao imprimir lista 3.");       
         break;
+
       case 13:
 
         // Remove matriculas repetidas da lista
         printf("\n Criando cópia da lista sem matriculas repetidas...");
+
+        l2 = criar_lista();
+
         ok = remove_duplicate_matriculas(li, l2);
         if(ok){
           printf("\n Lista sem matrículas repetidas: ");
@@ -228,8 +232,15 @@ int main(void) {
         // Inverte a lista
         printf("\n Invertendo lista... ");
         
+        l2 = criar_lista();
+        
+        if(l2 == NULL){
+          printf("\n Lista não criada!");
+          break;
+        }
+
         if(!inverte_lista(li, l2)){
-          printf("\n Falha na inversao!");
+          printf("\n Falha na inversão!");
           break;
         }
 
@@ -279,7 +290,7 @@ int main(void) {
         break;
     }
 
-  }while(opcao != 12);
+  }while(opcao != 17);
 
   return 0;
 }
