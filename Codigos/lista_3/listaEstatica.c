@@ -342,13 +342,13 @@ int inverte_lista(Lista *li, Lista *l2){
   return 1;  
 }
 
-int is_list_sorted(Lista *li){
+int verifica_ordem_lista(Lista *li){
 
 
   return 1;  
 }
 
-int get_list_size(Lista *li, int *tamanho){
+int verifica_tamanho_lista(Lista *li, int *tamanho){
 
 
   return 1;  
