@@ -229,24 +229,7 @@ int main(void) {
 
       case 14:
 
-        // Inverte a lista
-        printf("\n Invertendo lista... ");
-        
-        l2 = criar_lista();
-        
-        if(l2 == NULL){
-          printf("\n Lista não criada!");
-          break;
-        }
-
-        if(!inverte_lista(li, l2)){
-          printf("\n Falha na inversão!");
-          break;
-        }
-
-        printf("\n Lista invertida: ");
-        imprimir_lista(l2);
-        break;
+        3
 
       case 15:
 
@@ -282,7 +265,7 @@ int main(void) {
 
         // libera memória e finaliza programa
         liberar_lista(li);
-        printf("\nFinalizando...");
+        printf("\nFinalizando...\n");
         break;
 
       default:

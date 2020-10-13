@@ -401,6 +401,7 @@ int verifica_ordem_lista(Lista *li){
 
 int verifica_tamanho_lista(Lista *li, int *tamanho){
 
+  *tamanho = li->qtd;
 
   return 1;
 }
