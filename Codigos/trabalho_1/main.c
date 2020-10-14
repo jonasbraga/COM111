@@ -17,12 +17,16 @@ void showSoldiers();
 void clearBuffer();
 void clearScreen();
 void solveProblem();
-int insertSoldierList();
+int insertSoldiersList(Lista *li);
+int openSoldierFile(FILE **soldiersFile);
 
 Lista *li;
 
 // funcao principal
 int main() {
+
+  li = criar_lista();
+
   showMenu();
 
   return 0; 
@@ -56,14 +60,15 @@ void showMenu(){
 }
 
 void solveProblem(){
-  
+  insertSoldiersList(li);
+  imprimir_lista(li);
 }
 
-int openSoldierFile(FILE *soldiersFile){
+int openSoldierFile(FILE **soldiersFile){
   
-  soldiersFile = fopen(FILEPATH, "r");
+  *soldiersFile = fopen(FILEPATH, "r");
   
-  if(soldiersFile != NULL) return 1;
+  if(*soldiersFile != NULL) return 1;
 
   printf("Não foi possível abrir o arquivo");
 
@@ -71,19 +76,23 @@ int openSoldierFile(FILE *soldiersFile){
 }
 
 void showSoldiers(){
+
   FILE *soldiersFile;
 
-  if(!openSoldierFile(soldiersFile)) return;
+  if(!openSoldierFile(&soldiersFile)) return;
+
+  clearScreen();
 
   char soldier[100] = "";
+  int cont = 0;
 
   printf("\n========================================\n");
   printf("\t\t\t\tSOLDADOS");
   printf("\n========================================\n");
-  
+
   while(fgets(soldier, 100, soldiersFile)){
     char *username = strtok(soldier, &SPLIT_DELIMITER);
-    printf("\t\t\t\t %s\n", username);
+    printf("\t\t\t   %d - %s\n", ++cont, username);
   }
 
   printf("\n\t\tAperte x para voltar ao menu...\n");
@@ -96,14 +105,17 @@ void showSoldiers(){
   showMenu();
 }
 
-int insertSoldierList(){
+int insertSoldiersList(Lista *li){
   FILE *soldiersFile;
 
-  if(!openSoldierFile(soldiersFile)) return 0;
+  if(!openSoldierFile(&soldiersFile)) return 0;
 
   char soldier[100] = "";
-  while(fgets(soldier, 100, soldiersFile))
-    inserir_lista_final(li, strtok(soldier, &SPLIT_DELIMITER));
+  while(fgets(soldier, 100, soldiersFile)){
+    printf("Inserindo %s na lista", strtok(soldier, &SPLIT_DELIMITER));
+    printf(" - %d\n", (int)inserir_lista_final(li, strtok(soldier, &SPLIT_DELIMITER)));
+
+  }
   
   fclose(soldiersFile);
   

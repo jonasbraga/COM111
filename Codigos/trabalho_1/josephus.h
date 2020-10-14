@@ -5,6 +5,8 @@
 
 typedef struct elemento* Lista;
 
+typedef struct soldado Soldado;
+
 // funções para alocar e desalocar memória
 Lista* criar_lista();
 int liberar_lista(Lista *li);

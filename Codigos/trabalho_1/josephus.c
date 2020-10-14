@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "josephus.h"
 
 // definição do struct elemento
-typedef struct {
+typedef struct soldado{
   int posicao;
-  char nome;
+  char *nome;
 } Soldado;
 
 typedef struct elemento{
-  int dado;
+  Soldado *dado;
   struct elemento *prox;
 } Elemento;
 
@@ -140,7 +141,7 @@ Elemento* criar_elemento()
 
 //**************************************************************************
 // função para inserir elemento no final da lista
-int inserir_lista_final(Lista *li, char nome[])
+int inserir_lista_final(Lista *li, char *nome)
 {
   // verifica se a lista foi criada corretamente
   if(li == NULL){
@@ -151,11 +152,18 @@ int inserir_lista_final(Lista *li, char nome[])
   Elemento *no;
   no = criar_elemento();
 
+
+  Soldado *soldado = (Soldado*) malloc(sizeof(Soldado));
+  soldado->posicao = tamanho_lista(li) + 1;
+  soldado->nome = nome;
+
   // atribui valores ao elemento novo
-  no->dado = dado;
+  no->dado = soldado;
   
+  //printf("\n\n %d - Nome: %s \n", no->dado->posicao, no->prox->prox->dado.nome);
+
   // verifica se a lista está vazia
-  if( (*li) == NULL ){
+  if((*li) == NULL){
 
     // insere elemento único no início da lista 
     no->prox = no;  // próximo elemento na lista circular é ele mesmo
@@ -197,7 +205,7 @@ int remover_lista_meio(Lista *li, int dado)
   no = *li;
 
   // elemento a ser removido está no início da lista
-  if(no->dado == dado){
+  if(no->dado->posicao == dado){
 
     // verifica se existe apenas um elemento na lista (após remoção a lista fica vazia)
     if (no->prox == no){
@@ -237,7 +245,7 @@ int remover_lista_meio(Lista *li, int dado)
   no = no->prox; 
 
   // percorre a lista até achar o elemento a ser removido, ou até encontrar o primeiro elemento
-  while(no != (*li) && no->dado != dado){
+  while(no != (*li) && no->dado->posicao != dado){
     anterior = no;
     no = no->prox;
   }
@@ -268,13 +276,13 @@ int buscar_lista_dado(Lista *li, int dado, int *pos)
   int i = 1;
 
   // percorre a lista até achar o elemento desejado, ou até encontrar o último elemento
-  while( no->prox != (*li) && no->dado != dado){
+  while( no->prox != (*li) && no->dado->posicao != dado){
     no = no->prox;
     i++;
   }
 
   // verifica se dado procurado existe na lista
-  if(no->dado != dado){
+  if(no->dado->posicao != dado){
     return 0;
 
   }else{
@@ -301,12 +309,12 @@ int imprimir_lista(Lista *li)
 
   // percorre lista até o último elemento
   while(no->prox != (*li)){
-    printf(" %d ", no->dado);
+    printf("\n%dº - %s", no->dado->posicao, no->dado->nome);
     no = no->prox;
   }
 
   // imprime último elemento
-  printf(" %d ", no->dado);
+  printf("\n%dº - %s", no->dado->posicao, no->dado->nome);
   
   return 1;
 }
