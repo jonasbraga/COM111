@@ -15,9 +15,9 @@ int lista_vazia(Lista *li);
 int lista_cheia(Lista *li);
 
 // funções para inserção de elementos da lista
-int inserir_lista_inicio(Lista *li, int dado);
-int inserir_lista_final(Lista *li, int dado);
-int inserir_lista_ordenada(Lista *li, int dado);
+int inserir_lista_inicio(Lista *li, char nome[]);
+int inserir_lista_final(Lista *li, char nome[]);
+int inserir_lista_ordenada(Lista *li, char nome[]);
 
 // funções para remoção de elementos da lista
 int remover_lista_inicio(Lista *li);

@@ -1,12 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "example.h"
+#include "josephus.h"
 
 // definição do struct elemento
+typedef struct {
+  int posicao;
+  char nome;
+} Soldado;
+
 typedef struct elemento{
   int dado;
   struct elemento *prox;
-}Elemento;
+} Elemento;
+
+
+int matar_proximo_soldado(Lista *li, int id){
+
+}
+
+int insert_soldier(Lista *li, int id, char nome[]){
+  
+}
+
+int print_soldier(Lista *li, int id){
+
+}
 
 //**************************************************************************
 // função para alocar memória do tipo Lista
@@ -120,54 +138,9 @@ Elemento* criar_elemento()
   return no;
 }
 
-
-//**************************************************************************
-// função para inserir elemento no início da lista
-int inserir_lista_inicio(Lista *li, int dado)
-{
-  // verifica se a lista foi criada corretamente
-  if(li == NULL){
-    return 0;
-  }
-
-  // cria um elemento novo ('no' precisa ser alocado pois estamos inserindo ele na lista)
-  Elemento *no;
-  no = criar_elemento();
-
-  // atribui valores ao elemento novo
-  no->dado = dado;
-
-  // verifica se a lista está vazia
-  if((*li) == NULL){ 
-
-    // insere elemento único no início da lista    
-    no->prox = no;  // próximo elemento na lista circular é ele mesmo
-    *li = no;       // 'no' passa a ser o primeiro elemento da lista
-
-  }else{
-
-    Elemento *aux;
-    aux = *li;
-
-    // percorre a lista até o último elemento
-    while(aux->prox != (*li)){
-      aux = aux->prox;
-    }
-
-    // insere elemento no início da lista  
-    aux->prox = no; // 'no' é o próximo elemento na lista circular após o último
-    no->prox = *li; // primeiro elemento antigo '*li' é o próximo após o 'no'
-    *li = no;       // 'no' passa a ser o primeiro elemento
-    
-  }
-
-  return 1;
-}
-
-
 //**************************************************************************
 // função para inserir elemento no final da lista
-int inserir_lista_final(Lista *li, int dado)
+int inserir_lista_final(Lista *li, char nome[])
 {
   // verifica se a lista foi criada corretamente
   if(li == NULL){
@@ -205,160 +178,6 @@ int inserir_lista_final(Lista *li, int dado)
 
   return 1;
 }
-
-
-//**************************************************************************
-// função para inserir elemento na lista de forma ordenada
-int inserir_lista_ordenada(Lista *li, int dado)
-{
-  // verifica se a lista foi criada corretamente
-  if(li == NULL){
-    return 0;
-  }
-
-  // cria um elemento novo ('no' precisa ser alocado pois estamos inserindo ele na lista)
-  Elemento *no;
-  no = criar_elemento();
-
-  // atribui valores ao elemento novo
-  no->dado = dado;
-  
-  // verifica se a lista está vazia
-  if( (*li) == NULL ){
-
-    // insere elemento único no início da lista 
-    no->prox = no;  // próximo elemento na lista circular é ele mesmo
-    *li = no;       // 'no' passa a ser o primeiro elemento da lista
-
-  }else{
-
-    // primeira posição é a correta para inserção do elemento novo
-    if((*li)->dado > dado){
-
-      Elemento *aux;
-      aux = *li;
-      
-      // percorre a lista até o último elemento
-      while(aux->prox != (*li)){
-        aux = aux->prox;
-      }
-
-      // insere elemento no início da lista  
-      aux->prox = no; // 'no' é o próximo elemento na lista circular após o último
-      no->prox = *li; // primeiro elemento antigo '*li' é o próximo após o 'no'
-      *li = no;       // 'no' passa a ser o primeiro elemento
-    }
-
-    // senão, percorre a lista, a partir do segundo elemento, até achar o local correto e insere
-    Elemento *anterior, *atual;
-
-    anterior = *li;
-    atual = anterior->prox;
-
-    // percorre a lista até o último elemento ou até encontrar um elemento maior que o novo
-    while(atual != (*li) && atual->dado < dado){
-      anterior = atual;
-      atual = atual->prox;
-    }
-
-    // insere elemento na posição correta da lista (meio)
-    anterior->prox = no; // 'no' é o próximo elemento na lista circular após o anterior
-    no->prox = atual;    // 'atual' é o próximo elemento após o 'no'
-  }
-
-  return 1;
-}
-
-
-//**************************************************************************
-// função para remover elemento do início da lista
-int remover_lista_inicio(Lista *li)
-{
-  // verifica se a lista foi criada corretamente
-  if(li == NULL){
-    return 0;
-  }
-
-  // verifica se a lista está vazia (não existem elementos a serem removidos)
-  if((*li) == NULL){
-    return 0;
-  }
-
-  // verifica se existe apenas um elemento na lista (após remoção a lista fica vazia)
-  if ((*li)->prox == (*li)){
-
-    // libera elemento único
-    free(*li);
-    // indica que a lista ficou vazia
-    *li = NULL;
-
-    return 1;
-  }
-
-  Elemento *no, *aux;
-  no = *li; // 'no' é o elemento a ser removido
-  aux = *li;
-
-  // percorre a lista até o último elemento
-  while(aux->prox != (*li)){
-    aux = aux->prox;
-  }
-
-  // remove o primeiro elemento da lista
-  aux->prox = no->prox; // 'no->prox' é o próximo elemento na lista circular após o último
-  *li = no->prox;       // primeiro elemento da lista '*li' passa a ser o 'no->prox'
-
-  // libera Elemento 'no'
-  free(no);
-
-  return 1;
-}
-
-
-//**************************************************************************
-// função para remover elemento do final da lista
-int remover_lista_final(Lista *li)
-{
-  // verifica se a lista foi criada corretamente
-  if(li == NULL){
-    return 0;
-  }
-
-  // verifica se a lista está vazia (não existem elementos a serem removidos)
-  if((*li) == NULL){
-    return 0;
-  }
-
-  // verifica se existe apenas um elemento na lista (após remoção a lista fica vazia)
-  if ((*li)->prox == (*li)){
-
-    // libera elemento único
-    free(*li);
-    // indica que a lista ficou vazia
-    *li = NULL;
-
-    return 1;
-  }
-
-  Elemento *anterior, *no;
-  no = *li; // 'no' é o elemento a ser removido
-  
-  // percorre a lista até 'no' ser o último elemento, armazenando o elemento anterior
-  while(no->prox != (*li)){
-    anterior = no;
-    no = no->prox;
-  }
-
-  // remove o último elemento da lista
-  anterior->prox = no->prox; // 'no->prox' passa a ser o próximo elemento na lista circular após o 'anterior'
-
-  // libera Elemento 'no'
-  free(no);
-
-  return 1;
-
-}
-
 
 //**************************************************************************
 // função para remover elemento do meio da lista
@@ -435,36 +254,6 @@ int remover_lista_meio(Lista *li, int dado)
   free(no);
 
   return 1;
-
-}
-
-
-// função para buscar o elemento que está na posição 'pos' (primeiro elemento está na posição '1')
-int buscar_lista_posicao(Lista *li, int pos, int *dado)
-{
-  // verifica se a lista foi criada corretamente, se está vazia ou se a posição 'pos' é inválida
-  if(li == NULL || (*li) == NULL || pos <= 0){
-    return 0;  
-  }
-
-  Elemento *no = *li;
-  int i = 1;
-
-  // percorre a lista até achar posicao desejada, ou até encontrar o último elemento
-  while( no->prox != (*li) && i < pos){
-    no = no->prox;
-    i++;
-  }
-
-  // verifica se a posicao desejada existe na lista
-  if(i != pos){
-    return 0;
-
-  }else{
-    // copia o dado da posição desejada (parâmetro passado por referência)
-    *dado = no->dado;
-    return 1;
-  }
 }
 
 // função para buscar o elemento "dado"
@@ -495,7 +284,6 @@ int buscar_lista_dado(Lista *li, int dado, int *pos)
   }
 }
 
-
 int imprimir_lista(Lista *li)
 {
   // verifica se a lista foi criada corretamente
@@ -521,16 +309,4 @@ int imprimir_lista(Lista *li)
   printf(" %d ", no->dado);
   
   return 1;
-}
-
-int kill_soldier(Lista *li, int id){
-
-}
-
-int insert_soldier(Lista *li, int id, char nome[]){
-  
-}
-
-int print_soldier(Lista *li, int id){
-
 }

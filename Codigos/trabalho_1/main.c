@@ -1,5 +1,5 @@
 // Comando para compilar e executar
-// gcc ./Codigos/trabalho_1/main.c ./Codigos/trabalho_1/example.h ./Codigos/trabalho_1/example.c -o exe -lm && ./exe
+// gcc ./Codigos/trabalho_1/main.c ./Codigos/trabalho_1/josephus.h ./Codigos/trabalho_1/josephus.c -o exe -lm && ./exe
 
 // bibliotecas do sistema
 #include <stdio.h>
@@ -7,7 +7,7 @@
 #include <string.h>
 
 // bibliotecas do projeto
-#include "example.h"
+#include "josephus.h"
 
 const char FILEPATH[] = "/home/runner/COM111/Codigos/trabalho_1/soldados.txt";
 const char SPLIT_DELIMITER = '\n';
@@ -17,6 +17,9 @@ void showSoldiers();
 void clearBuffer();
 void clearScreen();
 void solveProblem();
+int insertSoldierList();
+
+Lista *li;
 
 // funcao principal
 int main() {
@@ -56,22 +59,21 @@ void solveProblem(){
   
 }
 
-void showSoldiers(){
-  clearScreen();
+int openSoldierFile(FILE *soldiersFile){
   
-  char soldiers[] = {};
-  getSoldiers(soldiers);
+  soldiersFile = fopen(FILEPATH, "r");
   
+  if(soldiersFile != NULL) return 1;
+
+  printf("Não foi possível abrir o arquivo");
+
+  return 0;
 }
 
-int getSoldiers(char soldiers[]){
+void showSoldiers(){
   FILE *soldiersFile;
-  soldiersFile = fopen(FILEPATH, "r");
 
-  if(soldiersFile == NULL){
-    printf("Não foi possível abrir o arquivo");
-    return 0;
-  } 
+  if(!openSoldierFile(soldiersFile)) return;
 
   char soldier[100] = "";
 
@@ -83,14 +85,29 @@ int getSoldiers(char soldiers[]){
     char *username = strtok(soldier, &SPLIT_DELIMITER);
     printf("\t\t\t\t %s\n", username);
   }
+
   printf("\n\t\tAperte x para voltar ao menu...\n");
   printf("========================================\n");
 
   fclose(soldiersFile);
   
   clearBuffer();
-  while(getchar()!='x');
+  while(getchar() != 'x');
   showMenu();
+}
+
+int insertSoldierList(){
+  FILE *soldiersFile;
+
+  if(!openSoldierFile(soldiersFile)) return 0;
+
+  char soldier[100] = "";
+  while(fgets(soldier, 100, soldiersFile))
+    inserir_lista_final(li, strtok(soldier, &SPLIT_DELIMITER));
+  
+  fclose(soldiersFile);
+  
+  return 1; 
 }
 
 // ----- função para limpar a tela ----- //
