@@ -62,6 +62,8 @@ void showMenu(){
 void solveProblem(){
   insertSoldiersList(li);
   imprimir_lista(li);
+  matar_proximo_soldado(li);
+  imprimir_lista(li);
 }
 
 int openSoldierFile(FILE **soldiersFile){
@@ -121,11 +123,12 @@ int insertSoldiersList(Lista *li){
       printf("Inserido");
     else 
       printf("Falhou");
-      
+
+     
   }
   
   fclose(soldiersFile);
-  
+
   return 1; 
 }
 

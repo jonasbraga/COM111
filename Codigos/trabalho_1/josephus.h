@@ -7,7 +7,7 @@ typedef struct elemento* Lista;
 
 typedef struct soldado Soldado;
 
-int matar_proximo_soldado(Lista *li, int id);
+void matar_proximo_soldado(Lista *li);
 int insert_soldier(Lista *li, int id, char *nome);
 int print_soldier(Lista *li, int id);
 

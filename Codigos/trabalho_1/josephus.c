@@ -15,11 +15,24 @@ typedef struct elemento{
 } Elemento;
 
 
-int matar_proximo_soldado(Lista *li, int id){
-  /* 
-   * Recebe o numero ou id do soldado atual e remove o proximo à sua direita
-   * Essa função pode ser chamada do main, em um loop, até q reste somente 1
-   */
+void matar_proximo_soldado(Lista *li){
+
+   Elemento *no = *li;
+   Elemento *aux;
+
+    //Começa a percorrer a lista e eliminando os soldados
+  while(no->prox != no) {
+
+    aux = no->prox;
+    printf("\nO soldado %d eliminou o soldado %d.", no->dado->posicao, aux->dado->posicao);
+    no->prox = aux->prox;
+    no = aux->prox;
+    free(aux);
+    
+  }
+  printf("\n");
+return;
+
 }
 
 int insert_soldier(Lista *li, int id, char nome[]){
