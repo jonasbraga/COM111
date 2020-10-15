@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 // bibliotecas do projeto
-#include "listaEstatica.h"
+#include "listaEncadeada.h"
 
 
 int criar_dado(int *dado);
@@ -176,7 +176,10 @@ int main(void) {
 
         // imprime a lista
         printf("\n Lista estática: ");
-        imprimir_lista(li);
+        if(!imprimir_lista(li)){
+          printf("\n Lista não encontrada!");
+        }
+        
 
         break;
 
@@ -266,16 +269,9 @@ int main(void) {
 
       case 16:
 
-
         // Verifica o tamanho da lista encadeada
         printf("\n Verificando tamanho da lista... ");
-        int tamanho = 0;
-
-        if(!verifica_tamanho_lista(li, &tamanho)){
-          printf("\n Falha na verificação do tamanho da lista!");
-          break;
-        }
-
+        int tamanho = tamanho_lista(li);
         printf("\n A lista possui %d elementos", tamanho);
         break;
         
