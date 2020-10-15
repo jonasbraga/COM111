@@ -6,7 +6,7 @@
 // definição do struct elemento
 typedef struct soldado{
   int posicao;
-  char *nome;
+  char nome[100];
 } Soldado;
 
 typedef struct elemento{
@@ -16,7 +16,10 @@ typedef struct elemento{
 
 
 int matar_proximo_soldado(Lista *li, int id){
-
+  /* 
+   * Recebe o numero ou id do soldado atual e remove o proximo à sua direita
+   * Essa função pode ser chamada do main, em um loop, até q reste somente 1
+   */
 }
 
 int insert_soldier(Lista *li, int id, char nome[]){
@@ -144,24 +147,22 @@ Elemento* criar_elemento()
 int inserir_lista_final(Lista *li, char *nome)
 {
   // verifica se a lista foi criada corretamente
-  if(li == NULL){
-    return 0;
-  }
-
+  if(li == NULL) return 0;
+ 
   // cria um elemento novo ('no' precisa ser alocado pois estamos inserindo ele na lista)
   Elemento *no;
   no = criar_elemento();
 
-
   Soldado *soldado = (Soldado*) malloc(sizeof(Soldado));
+
+  if(soldado == NULL) return 0;
+  
   soldado->posicao = tamanho_lista(li) + 1;
-  soldado->nome = nome;
+  strcpy(soldado->nome, nome);
 
   // atribui valores ao elemento novo
   no->dado = soldado;
   
-  //printf("\n\n %d - Nome: %s \n", no->dado->posicao, no->prox->prox->dado.nome);
-
   // verifica se a lista está vazia
   if((*li) == NULL){
 
@@ -309,12 +310,12 @@ int imprimir_lista(Lista *li)
 
   // percorre lista até o último elemento
   while(no->prox != (*li)){
-    printf("\n%dº - %s", no->dado->posicao, no->dado->nome);
+    printf("\n %dº - %s", no->dado->posicao, no->dado->nome);
     no = no->prox;
   }
 
   // imprime último elemento
-  printf("\n%dº - %s", no->dado->posicao, no->dado->nome);
+  printf("\n %dº - %s \n", no->dado->posicao, no->dado->nome);
   
   return 1;
 }

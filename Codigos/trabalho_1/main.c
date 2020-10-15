@@ -112,9 +112,16 @@ int insertSoldiersList(Lista *li){
 
   char soldier[100] = "";
   while(fgets(soldier, 100, soldiersFile)){
-    printf("Inserindo %s na lista", strtok(soldier, &SPLIT_DELIMITER));
-    printf(" - %d\n", (int)inserir_lista_final(li, strtok(soldier, &SPLIT_DELIMITER)));
+    
+    char *soldierName = strtok(soldier, &SPLIT_DELIMITER);
 
+    printf("\n Inserindo %s na lista... ", soldierName);
+
+    if(inserir_lista_final(li, soldierName)) 
+      printf("Inserido");
+    else 
+      printf("Falhou");
+      
   }
   
   fclose(soldiersFile);
