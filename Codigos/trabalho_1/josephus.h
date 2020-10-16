@@ -1,4 +1,4 @@
-// TAD para Lista Dinâmica Encadeada Circular
+// TAD para lista dinâmica encadeada circular
 
 #ifndef _LISTA_DEC
 #define _LISTA_DEC
@@ -7,6 +7,7 @@ typedef struct elemento* Lista;
 
 typedef struct soldado Soldado;
 
+// funções para inserção e execução dos soldados
 void matar_proximo_soldado(Lista *li);
 int insert_soldier(Lista *li, int id, char *nome);
 int print_soldier(Lista *li, int id);

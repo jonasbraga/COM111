@@ -1,5 +1,5 @@
 // Comando para compilar e executar
-// gcc ./Codigos/lista_3/main.c ./Codigos/lista_3/listaEstatica.h ./Codigos/lista_3/listaEstatica.c -o exe -lm && ./exe
+// gcc ./Codigos/lista_3/main.c ./Codigos/lista_3/listaEncadeada.h ./Codigos/lista_3/listaEncadeada.c -o exe -lm && ./exe
 
 // bibliotecas do sistema
 #include <stdio.h>
@@ -9,7 +9,7 @@
 #include "listaEncadeada.h"
 
 
-int criar_dado(int *dado);
+Aluno* criar_dado();
 int preencher_nova_lista(Lista *l2);
 
 // funcao principal
@@ -18,6 +18,7 @@ int main(void) {
   // no início a lista está vazia, logo, o ponteiro inicio tem valor NULL
   //o ponteiro inicio conterá o endereço do primeiro elemento da lista
   Lista *li = NULL, *l2 = NULL, *l3 = NULL;
+  Aluno *aluno;
   int opcao, dado, ok, pos;
 
   // menu de opções para execuções de operações sobre a lista
@@ -73,8 +74,8 @@ int main(void) {
       case 3:
 
         // inserir elemento no início
-        criar_dado(&dado);
-        if(!inserir_lista_inicio(li, dado)){
+        aluno = criar_dado();
+        if(!inserir_lista_inicio(li, aluno)){
           printf("\n Falha na inserção!");
           break;
         }
@@ -85,8 +86,8 @@ int main(void) {
       case 4:
 
         // inserir elemento no final
-        criar_dado(&dado);
-        if(!inserir_lista_final(li, dado)){
+        aluno = criar_dado();
+        if(!inserir_lista_final(li, aluno)){
           printf("\n Falha na inserção!");
           break;
         }
@@ -97,8 +98,8 @@ int main(void) {
       case 5:
 
         // inserir elemento de forma ordenada
-        criar_dado(&dado);
-        if(!inserir_lista_ordenada(li, dado)){
+        aluno = criar_dado();
+        if(!inserir_lista_ordenada(li, aluno)){
           printf("\n Falha na inserção!");
           break;
         }
@@ -131,10 +132,10 @@ int main(void) {
       case 8:
 
         // remover elemento do meio
-        printf("\n Código do produto a ser removido: ");
+        printf("\n Qual a matricula do aluno a ser removido: ");
         scanf("%d", &dado);
 
-        if(!remover_lista_meio(li, dado)){
+        if(!remover_lista_meio(li, aluno)){
           printf("\n Falha na remoção!");
           break;
         }
@@ -148,7 +149,7 @@ int main(void) {
         printf("\n Posição do elemento a ser buscado: ");
         scanf("%d", &pos);
 
-        if(!buscar_lista_posicao(li, pos, &dado)){
+        if(!buscar_lista_posicao(li, pos, aluno)){
           printf("\n Posição não existe!");
           break;
         }
@@ -160,7 +161,7 @@ int main(void) {
       case 10:
 
         // busca elemento pelo dado
-        printf("\n Código do produto a ser buscado: ");
+        printf("\n Matrícula do aluno a ser buscado: ");
         scanf("%d", &dado);
 
         if(!buscar_lista_dado(li, dado, &pos)){
@@ -175,7 +176,7 @@ int main(void) {
       case 11:
 
         // imprime a lista
-        printf("\n Lista estática: ");
+        printf("\n Lista encadeada: ");
         if(!imprimir_lista(li)){
           printf("\n Lista não encontrada!");
         }
@@ -199,14 +200,14 @@ int main(void) {
           break;
         }
 
-        printf("\n Concatenando listas... ");
+        printf("\nConcatenando listas... ");
         
         if(!merge_listas(li, l2, l3)){
           printf("\n Falha na concatenação!");
           break;
         }
 
-        printf("\n Lista concatenada: ");
+        printf("\n Lista concatenada: \n");
 
         if(!imprimir_lista(l3)) printf("Erro ao imprimir lista 3.");       
         break;
@@ -214,7 +215,7 @@ int main(void) {
       case 13:
 
         // Remove matriculas repetidas da lista
-        printf("\n Criando cópia da lista sem matriculas repetidas...");
+        printf("\nCriando cópia da lista sem matriculas repetidas...");
 
         l2 = criar_lista();
 
@@ -234,7 +235,7 @@ int main(void) {
 
         
         // Inverte a lista
-        printf("\n Invertendo lista... ");
+        printf("\nInvertendo lista... ");
         
         l2 = criar_lista();
         
@@ -248,14 +249,14 @@ int main(void) {
           break;
         }
 
-        printf("\n Lista invertida: ");
+        printf("\n Lista invertida: \n");
         imprimir_lista(l2);
         break;
 
       case 15:
 
         // Verifica se a lista está ordenada
-        printf("\n Verificando ordenação da lista... ");
+        printf("\nVerificando ordenação da lista... ");
         ok = verifica_ordem_lista(li);
         if(ok){
           printf("\n Lista ordenada");
@@ -270,9 +271,9 @@ int main(void) {
       case 16:
 
         // Verifica o tamanho da lista encadeada
-        printf("\n Verificando tamanho da lista... ");
+        printf("\nVerificando tamanho da lista... ");
         int tamanho = tamanho_lista(li);
-        printf("\n A lista possui %d elementos", tamanho);
+        printf("\nA lista possui %d elementos", tamanho);
         break;
         
       case 17:
@@ -294,28 +295,34 @@ int main(void) {
 
 
 int preencher_nova_lista(Lista *l2){
-  int dado = 0, ok = 0, mais_elementos = 1;
+  int ok = 0, mais_elementos = 1;
 
-  printf("\n Por favor, preencha a nova lista: ");
+  printf("\nPor favor, preencha a nova lista: ");
   while(mais_elementos){
-    
-    ok = criar_dado(&dado);
-    if (!ok) return 0;
 
-    ok = inserir_lista_final(l2, dado);
-    if (!ok) return 0;
+    if (!inserir_lista_final(l2, criar_dado())) return 0;
 
-    printf("\nDeseja inserir mais elementos na lista? (1 - Sim | 0 - Não)");
+    printf("\nDeseja inserir mais elementos na lista? (1 - Sim | 0 - Não)\n");
     scanf("%d", &mais_elementos);
   }
 
   return 1;
 }
 
-int criar_dado(int *dado)
+Aluno* criar_dado()
 {
-  printf("\nDigite um valor: ");
-  scanf("%d", dado);
+  char nome[30];
+  int matricula;
+  float nota;
 
-  return 1;
+  printf("\nDigite o nome do aluno: ");
+  scanf("%s", nome);
+
+  printf("\nDigite a matrícula do aluno: ");
+  scanf("%d", &matricula);
+
+  printf("\nDigite a nota do aluno: ");
+  scanf("%f", &nota);
+
+  return criar_aluno(matricula, nome, nota);;
 }

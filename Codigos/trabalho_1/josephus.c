@@ -3,54 +3,53 @@
 #include <string.h>
 #include "josephus.h"
 
-// definição do struct elemento
+// ----- definição do struct soldado ----- //
 typedef struct soldado{
   int posicao;
   char nome[100];
 } Soldado;
 
+// ----- definição do struct elemento ----- //
 typedef struct elemento{
   Soldado *dado;
   struct elemento *prox;
 } Elemento;
 
-
+// ----- função para matar o próximo soldado ----- //
 void matar_proximo_soldado(Lista *li){
 
    Elemento *no = *li;
    Elemento *aux;
 
-    //Começa a percorrer a lista e eliminando os soldados
-  while(no->prox != no) {
+  //percorre a lista e verifica se tem apenas 1 elemento
+  if(no->prox == NULL){
 
+    printf("\n\nO soldado %d - %s foi o ultimo a restar.\n", no->dado->posicao, no->dado->nome);
+
+  }
+  
+  //percorre a lista e elimina os soldados
+  while(no->prox != no) {
     aux = no->prox;
-    printf("\nO soldado %d eliminou o soldado %d.", no->dado->posicao, aux->dado->posicao);
+    printf("\nO soldado %d - %s \teliminou o soldado %d - %s.", no->dado->posicao,no->dado->nome, aux->dado->posicao, aux->dado->nome);
     no->prox = aux->prox;
     no = aux->prox;
     free(aux);
-    
   }
-  printf("\n");
-return;
 
+  //printa o nome do ultimo soldado
+  printf("\n\nO soldado %d - %s foi o ultimo a restar.\n", no->dado->posicao, no->dado->nome);
+
+  return; 
 }
 
-int insert_soldier(Lista *li, int id, char nome[]){
-  
-}
-
-int print_soldier(Lista *li, int id){
-
-}
-
-//**************************************************************************
-// função para alocar memória do tipo Lista
+// ----- função para alocar memória do tipo Lista ----- //
 Lista* criar_lista()
 {
-  // 'li' é um ponteiro para ponteiro do tipo Elemento
+  // "li" é um ponteiro para ponteiro do tipo Elemento
   Lista *li = (Lista*) malloc(sizeof(Lista));  
 
-  // se a alocação estiver correta 'li' aponta para NULL (lista vazia)
+  // se a alocação estiver correta, "li" aponta para NULL (lista vazia)
   if(li != NULL){
     *li = NULL;
   }else{
@@ -60,9 +59,7 @@ Lista* criar_lista()
   return li;
 }
 
-
-//**************************************************************************
-// função para liberar memória
+// ----- função para liberar memória ----- //
 int liberar_lista(Lista *li)
 {
   // verifica se a lista foi alocada corretamente
@@ -92,11 +89,10 @@ int liberar_lista(Lista *li)
   return 1;
 }
 
-//**************************************************************************
-// função para obter o tamanho da lista
+// ----- função para obter o tamanho da lista ----- //
 int tamanho_lista(Lista *li)
 {
-  // verifica se a lista foi alocada corretamente ou se a lista está vazia
+  // verifica se a lista foi alocada ou se está vazia
   if(li == NULL || (*li) == NULL){
     return 0;
   }
@@ -108,7 +104,7 @@ int tamanho_lista(Lista *li)
   Elemento *no;  
   no = *li;
 
-  // incrementa 'cont' até acabar o último elemento da lista
+  // incrementa "cont" até acabar o último elemento da lista
   do{
     cont++;
     no = no->prox;
@@ -118,18 +114,15 @@ int tamanho_lista(Lista *li)
   return cont;
 }
 
-//**************************************************************************
-// função para verificar se a lista está vazia
+// ----- função para verificar se a lista está vazia ----- //
 int lista_vazia(Lista *li)
 {
-  // verifica se houve problema na criação da lista
-  // ou seja, 'li' não é uma lista válida
+  // verifica se houve problema na criação da lista - "li" não é uma lista válida
   if(li == NULL){
     return -1;
   }
 
-  // verifica se a lista foi criada corretamente
-  // mas não contém nenhum valor (lista vazia)
+  // verifica se a lista foi criada corretamente - mas está vazia
   if(*li == NULL){
     return 1;
   }
@@ -138,12 +131,10 @@ int lista_vazia(Lista *li)
   return 0;
 }
 
-
-//**************************************************************************
-// função para alocar memória do tipo Elemento
+// ----- função para alocar memória do tipo Elemento ----- //
 Elemento* criar_elemento()
 {
-  // 'no' é um ponteiro do tipo Elemento
+  // "no" é um ponteiro do tipo Elemento
   Elemento *no = (Elemento*) malloc(sizeof(Elemento));  
 
   // verifica se a memória foi alocada corretamente
@@ -155,14 +146,13 @@ Elemento* criar_elemento()
   return no;
 }
 
-//**************************************************************************
-// função para inserir elemento no final da lista
+// ----- função para inserir elemento no final da lista ----- //
 int inserir_lista_final(Lista *li, char *nome)
 {
   // verifica se a lista foi criada corretamente
   if(li == NULL) return 0;
  
-  // cria um elemento novo ('no' precisa ser alocado pois estamos inserindo ele na lista)
+  // cria um elemento novo - precisa ser alocado pois está sendo inserindo na lista
   Elemento *no;
   no = criar_elemento();
 
@@ -181,7 +171,7 @@ int inserir_lista_final(Lista *li, char *nome)
 
     // insere elemento único no início da lista 
     no->prox = no;  // próximo elemento na lista circular é ele mesmo
-    *li = no;       // 'no' passa a ser o primeiro elemento da lista
+    *li = no;       // "no" passa a ser o primeiro elemento da lista
 
   }else{
 
@@ -194,15 +184,14 @@ int inserir_lista_final(Lista *li, char *nome)
     }
 
     // insere elemento no final da lista 
-    aux->prox = no;  // 'no' é o próximo elemento na lista circular após o último
-    no->prox = *li;  // primeiro elemento '*li' é o próximo após o 'no'
+    aux->prox = no;  // "no" é o próximo elemento na lista circular após o último
+    no->prox = *li;  // primeiro elemento "*li" é o próximo após o "no"
   }
 
   return 1;
 }
 
-//**************************************************************************
-// função para remover elemento do meio da lista
+// ----- função para remover elemento do meio da lista ----- //
 int remover_lista_meio(Lista *li, int dado)
 {
   // verifica se a lista foi criada corretamente
@@ -210,7 +199,7 @@ int remover_lista_meio(Lista *li, int dado)
     return 0;
   }
 
-  // verifica se a lista está vazia (não existem elementos a serem removidos)
+  // verifica se a lista está vazia - não existem elementos a serem removidos
   if((*li) == NULL){
     return 0;
   }
@@ -221,14 +210,14 @@ int remover_lista_meio(Lista *li, int dado)
   // elemento a ser removido está no início da lista
   if(no->dado->posicao == dado){
 
-    // verifica se existe apenas um elemento na lista (após remoção a lista fica vazia)
+    // verifica se existe apenas um elemento na lista - após remoção ela fica vazia)
     if (no->prox == no){
 
-      // indica que a lista ficou vazia e remove o 'no'      
+      // indica que a lista ficou vazia e remove o "no"    
       *li = NULL;
       free(no);
 
-      // libera Elemento 'no'
+      // libera Elemento "no"
       return 1;
 
     // remove o primeiro elemento
@@ -242,11 +231,11 @@ int remover_lista_meio(Lista *li, int dado)
         ultimo = ultimo->prox;
       }  
       
-      // remove primeiro elemento 'no' (no = *li)
+      // remove primeiro elemento "no" (no = *li)
       ultimo->prox = no->prox;
       *li = no->prox;
 
-      // libera Elemento 'no'
+      // libera Elemento "no"
       free(no);
 
       return 1;      
@@ -269,16 +258,16 @@ int remover_lista_meio(Lista *li, int dado)
     return 0;
   }
 
-  // remove o elemento 'no'
-  anterior->prox = no->prox;  // 'no->prox' passa a ser o próximo elemento na lista circular após o 'anterior'
+  // remove o elemento "no"
+  anterior->prox = no->prox;  // 'no->prox' passa a ser o próximo elemento na lista circular após o "anterior"
 
-  // libera Elemento 'no'
+  // libera Elemento "no"
   free(no);
 
   return 1;
 }
 
-// função para buscar o elemento "dado"
+// ----- função para buscar o elemento "dado" ----- //
 int buscar_lista_dado(Lista *li, int dado, int *pos)
 {
   // verifica se a lista foi criada corretamente ou se está vazia
@@ -300,12 +289,13 @@ int buscar_lista_dado(Lista *li, int dado, int *pos)
     return 0;
 
   }else{
-    // copia a posição da lista onde o dado foi encontrado (parâmetro passado por referência)
+    // copia a posição da lista onde o dado foi encontrado - parâmetro passado por referência
     *pos = i; 
     return 1;
   }
 }
 
+// ----- função para imprimir a lista ----- //
 int imprimir_lista(Lista *li)
 {
   // verifica se a lista foi criada corretamente

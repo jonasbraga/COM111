@@ -1,4 +1,3 @@
-// Comando para compilar e executar
 // gcc ./Codigos/trabalho_1/main.c ./Codigos/trabalho_1/josephus.h ./Codigos/trabalho_1/josephus.c -o exe -lm && ./exe
 
 // bibliotecas do sistema
@@ -9,9 +8,11 @@
 // bibliotecas do projeto
 #include "josephus.h"
 
+// caminho do arquivo com o nome dos soldados
 const char FILEPATH[] = "/home/runner/COM111/Codigos/trabalho_1/soldados.txt";
 const char SPLIT_DELIMITER = '\n';
 
+void showIntro();
 void showMenu();
 void showSoldiers();
 void clearBuffer();
@@ -22,14 +23,66 @@ int openSoldierFile(FILE **soldiersFile);
 
 Lista *li;
 
-// funcao principal
+// função principal
 int main() {
 
   li = criar_lista();
 
-  showMenu();
+  showIntro();
 
   return 0; 
+}
+
+// ----- função para gerar a introdução ----- //
+void showIntro(){
+  clearScreen();
+  printf("\n=============================================");
+  printf("\n==                                         ==");
+  printf("\n==   Flavius Josephus, durante o cerco     ==");
+  printf("\n==  de Yodfat, estava encurralado em uma   ==");
+  printf("\n==  caverna junto de 40 judeus rebeldes.   ==");
+  printf("\n==                                         ==");
+  printf("\n==   Ao invés de se renderem aos soldados  ==");
+  printf("\n==  romanos eles optaram por outro método. ==");
+  printf("\n==                                         ==");
+  printf("\n==                  x para prosseguir...   ==");
+  printf("\n==                                         ==");
+  printf("\n=============================================\n");
+
+  while(getchar()!='x');
+  clearScreen();
+
+  printf("\n=============================================");
+  printf("\n==                                         ==");
+  printf("\n==    Era um método serial de suicídio     ==");
+  printf("\n==              por sorteio...             ==");
+  printf("\n==                                         ==");
+  printf("\n==   Josephus conseguiu restar por último  ==");
+  printf("\n==     ao ficar em determinada posição e   ==");
+  printf("\n==   foi capaz de se render e sobreviver.  ==");
+  printf("\n==                                         ==");
+  printf("\n==                  x para prosseguir...   ==");
+  printf("\n==                                         ==");
+  printf("\n=============================================\n");
+
+  while(getchar()!='x');
+  clearScreen();
+
+    printf("\n=============================================");
+  printf("\n==                                         ==");
+  printf("\n==                                         ==");
+  printf("\n==    Portanto, o problema se baseia em    ==");
+  printf("\n==    descobrir qual a posição - dado o    ==");
+  printf("\n==      número de pessoas e o ponto de     ==");
+  printf("\n==    partida - será a última a restar     ==");
+  printf("\n==         após a execução serial.         ==");
+  printf("\n==                                         ==");
+  printf("\n==                  x para prosseguir...   ==");
+  printf("\n==                                         ==");
+  printf("\n=============================================\n");
+
+  while(getchar()!='x');
+  showMenu();
 }
 
 // ----- função para gerar o menu principal ----- //
@@ -42,9 +95,9 @@ void showMenu(){
   printf("\n=========================================");
   printf("\n==                                     ==");
   printf("\n==                                     ==");
-  printf("\n==             RESOLVER  (1)           ==");
-  printf("\n==             SOLDADOS  (2)           ==");
-  printf("\n==               SAIR    (3)           ==");
+  printf("\n==        RESOLVER PROBLEMA  (1)       ==");
+  printf("\n==         MOSTRAR SOLDADOS  (2)       ==");
+  printf("\n==               SAIR        (3)       ==");
   printf("\n==                                     ==");
   printf("\n==                                     ==");
   printf("\n=========================================\n");
@@ -59,13 +112,15 @@ void showMenu(){
   }
 }
 
+// ----- função para realizar a eliminação de soldados ----- //
 void solveProblem(){
   insertSoldiersList(li);
+  printf("\n\n Soldados na lista:");
   imprimir_lista(li);
   matar_proximo_soldado(li);
-  imprimir_lista(li);
 }
 
+//função para abrir a lista de soldados
 int openSoldierFile(FILE **soldiersFile){
   
   *soldiersFile = fopen(FILEPATH, "r");
@@ -77,6 +132,7 @@ int openSoldierFile(FILE **soldiersFile){
   return 0;
 }
 
+//função para mostrar a lista de soldados
 void showSoldiers(){
 
   FILE *soldiersFile;
@@ -107,6 +163,7 @@ void showSoldiers(){
   showMenu();
 }
 
+//função para inserir novos soldados na lista
 int insertSoldiersList(Lista *li){
   FILE *soldiersFile;
 
@@ -117,14 +174,12 @@ int insertSoldiersList(Lista *li){
     
     char *soldierName = strtok(soldier, &SPLIT_DELIMITER);
 
-    printf("\n Inserindo %s na lista... ", soldierName);
+    printf("\n Inserindo %s\tna lista... ", soldierName);
 
     if(inserir_lista_final(li, soldierName)) 
       printf("Inserido");
     else 
       printf("Falhou");
-
-     
   }
   
   fclose(soldiersFile);

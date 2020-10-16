@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "listaEncadeada.h"
 
 // definição do struct aluno
@@ -13,7 +14,7 @@ typedef struct aluno{
 
 // definição do struct elemento
 typedef struct elemento{
-  Aluno dado;
+  Aluno *dado;
   struct elemento *prox;
 }Elemento;
 
@@ -123,7 +124,7 @@ Elemento* criar_elemento()
 
 
 // função para inserir elemento no início da lista
-int inserir_lista_inicio(Lista *li, Aluno dado)
+int inserir_lista_inicio(Lista *li, Aluno *dado)
 {
   if(li == NULL){
     return 0;
@@ -149,7 +150,7 @@ int inserir_lista_inicio(Lista *li, Aluno dado)
 
 
 // função para inserir elemento no final da lista
-int inserir_lista_final(Lista *li, Aluno dado)
+int inserir_lista_final(Lista *li, Aluno *dado)
 {
   if(li == NULL){
     return 0;
@@ -188,7 +189,7 @@ int inserir_lista_final(Lista *li, Aluno dado)
 
 
 // função para inserir elemento na lista de forma ordenada
-int inserir_lista_ordenada(Lista *li, Aluno dado)
+int inserir_lista_ordenada(Lista *li, Aluno *dado)
 {
   if(li == NULL){
     return 0;
@@ -216,7 +217,7 @@ int inserir_lista_ordenada(Lista *li, Aluno dado)
     Elemento *anterior, *atual;
     atual = *li;
 
-    while(atual != NULL && atual->dado.matricula < dado.matricula){
+    while(atual != NULL && atual->dado->matricula < dado->matricula){
       anterior = atual;
       atual = atual->prox;
     }
@@ -298,7 +299,7 @@ int remover_lista_final(Lista *li)
 
 
 // função para remover elemento do meio da lista
-int remover_lista_meio(Lista *li, Aluno dado)
+int remover_lista_meio(Lista *li, Aluno *dado)
 {
   if(li == NULL){
     return 0;
@@ -313,7 +314,7 @@ int remover_lista_meio(Lista *li, Aluno dado)
   Elemento *anterior, *atual;
   atual = *li;
 
-  while(atual != NULL && atual->dado.matricula != dado.matricula){
+  while(atual != NULL && atual->dado->matricula != dado->matricula){
     anterior = atual;
     atual = atual->prox;
   }
@@ -358,7 +359,7 @@ int buscar_lista_posicao(Lista *li, int pos, Aluno *dado)
   }
 
   // copia o dado da posição desejada (parâmetro passado por referência)
-  *dado = no->dado;
+  *dado = *no->dado;
 
   return 1;
 }
@@ -375,7 +376,7 @@ int buscar_lista_dado(Lista *li, int dado, int *pos)
   Elemento *no = *li;
   int i = 1;
 
-  while(no != NULL && no->dado.matricula != dado){
+  while(no != NULL && no->dado->matricula != dado){
     no = no->prox;
     i++;
   }
@@ -404,12 +405,16 @@ int imprimir_lista(Lista *li)
     Elemento *aux = (*li);
 
     while(aux->prox != NULL){
-      printf(" %d ", aux->dado);
+      printf("\nNome: %s", aux->dado->nome);
+      printf("\nMatricula: %d", aux->dado->matricula);
+      printf("\nNota: %0.2f\n", aux->dado->nota);
       aux = aux->prox;
     }
 
-    printf(" %d ", aux->dado);
-
+    printf("\nNome: %s", aux->dado->nome);
+    printf("\nMatricula: %d", aux->dado->matricula);
+    printf("\nNota: %0.2f\n", aux->dado->nota);
+      
     return 1;
 }
 
@@ -427,12 +432,12 @@ int merge_listas(Lista *li, Lista *l2, Lista *l3)
   do {
     inserir_lista_final(l3, aux->dado);
     aux = aux->prox;
-  } while (aux->prox != NULL);
+  } while (aux != NULL);
  
   do {
     inserir_lista_final(l3, aux2->dado);
     aux2 = aux2->prox;
-  } while (aux2->prox != NULL);
+  } while (aux2 != NULL);
 
   return 1;  
 }
@@ -446,9 +451,9 @@ int remove_duplicate_matriculas(Lista *li, Lista *l2){
   Elemento *aux = (*li);
  
   do {
-    if (!buscar_lista_dado(l2, aux->dado.matricula, pos)) inserir_lista_final(l2, aux->dado);
+    if (!buscar_lista_dado(l2, aux->dado->matricula, &pos)) inserir_lista_final(l2, aux->dado);
     aux = aux->prox;
-  } while (aux->prox != NULL);
+  } while (aux != NULL);
   
   return 1;  
 }
@@ -459,7 +464,7 @@ int inverte_lista(Lista *li, Lista *l2){
   do {
     inserir_lista_inicio(l2, aux->dado);
     aux = aux->prox;
-  } while (aux->prox != NULL);
+  } while (aux != NULL);
 
   return 1;  
 }
@@ -472,22 +477,22 @@ int verifica_ordem_lista(Lista *li){
   Elemento *aux = (*li);
 
   do {
-    if(crescente > aux->dado.matricula){
+    if(crescente > aux->dado->matricula){
       crescente_flag = 0;
       break; 
     }
-    crescente = aux->dado.matricula;
+    crescente = aux->dado->matricula;
     aux = aux->prox;
   } while (aux->prox != NULL);
 
   do {
-    if(decrescente < aux->dado.matricula){
+    if(decrescente < aux->dado->matricula){
       decrescente_flag = 0;
       break; 
     }
-    decrescente = aux->dado.matricula;
+    decrescente = aux->dado->matricula;
     aux = aux->prox;
-  } while (aux->prox != NULL);
+  } while (aux != NULL);
 
   return (int) (crescente_flag || decrescente_flag);  
 }
